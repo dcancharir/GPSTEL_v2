@@ -116,5 +116,35 @@ namespace GPSTEL_API_v2.Models
 
             return SavedId;
         }
+        public bool EditChipJson(ChipEntity chip)
+        {
+            bool Edited = false;
+            string SqlQuery = @"UPDATE [dbo].[CHIP]
+                           SET [operador] = @p0
+                              ,[tipo_contrato] = @p1
+                                ,[numero] = @p2
+                         WHERE idchip=@p3";
+
+            try
+            {
+                using (var con = new SqlConnection(_connection))
+                {
+                    con.Open();
+                    var query = new SqlCommand(SqlQuery, con);
+                    query.Parameters.AddWithValue("@p0", chip.operador);
+                    query.Parameters.AddWithValue("@p1", chip.tipo_contrato);
+                    query.Parameters.AddWithValue("@p2", chip.numero);
+                    query.Parameters.AddWithValue("@p3", chip.idchip);
+                    query.ExecuteNonQuery();
+                    Edited = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Edited = false;
+            }
+
+            return Edited;
+        }
     }
 }

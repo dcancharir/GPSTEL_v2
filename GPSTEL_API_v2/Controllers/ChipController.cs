@@ -9,17 +9,18 @@ using System.Web.Http;
 
 namespace GPSTEL_API_v2.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/chip")]
     public class ChipController : ApiController
     {
         ChipModel ChipBL = new ChipModel();
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult GetJson()
         {
             var ChipList = ChipBL.GetChipsJson();
             return Ok(ChipList);
         }
-        public IHttpActionResult GetChipById(int id)
+        public IHttpActionResult GetChipByIdJson(int id)
         {
             try
             {
@@ -36,7 +37,7 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
-        public IHttpActionResult Post([FromBody] ChipEntity chip)
+        public IHttpActionResult SaveChipJson([FromBody] ChipEntity chip)
         {
             int SavedId = 0;
             if (!ModelState.IsValid)
@@ -52,6 +53,24 @@ namespace GPSTEL_API_v2.Controllers
                 return NotFound();
             }
             return Ok(SavedId);
+        }
+        [HttpPost]
+        public IHttpActionResult EditChipJson([FromBody] ChipEntity chip)
+        {
+            bool Edited = false;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Edited = ChipBL.EditChipJson(chip);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            return Ok(Edited);
         }
     }
 }

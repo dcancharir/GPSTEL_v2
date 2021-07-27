@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPSTEL_API_v2.JWTClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,7 +14,7 @@ namespace GPSTEL_API_v2
 
             // Rutas de API web
             config.MapHttpAttributeRoutes();
-
+            config.MessageHandlers.Add(new TokenValidationHandler());
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
