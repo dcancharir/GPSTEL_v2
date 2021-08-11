@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace GPSTEL_API_v2
 {
@@ -13,6 +14,8 @@ namespace GPSTEL_API_v2
             // Configuración y servicios de API web
 
             // Rutas de API web
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
             config.MapHttpAttributeRoutes();
             config.MessageHandlers.Add(new TokenValidationHandler());
             config.Routes.MapHttpRoute(
