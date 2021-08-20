@@ -106,6 +106,7 @@
     <Compile Include="Controllers\ChipController.cs" />
     <Compile Include="Controllers\GpsController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UbigeoController.cs" />
     <Compile Include="Entities\ChipEntity.cs" />
     <Compile Include="Entities\ClienteEntity.cs" />
     <Compile Include="Entities\DepartamentoEntity.cs" />
