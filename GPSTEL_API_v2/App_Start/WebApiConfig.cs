@@ -1,4 +1,5 @@
-﻿using GPSTEL_API_v2.JWTClasses;
+﻿using GPSTEL_API_v2.App_Start;
+using GPSTEL_API_v2.JWTClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace GPSTEL_API_v2
             // Configuración y servicios de API web
 
             // Rutas de API web
-            var cors = new EnableCorsAttribute("*", "*", "*");
+            var cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*");
+            //config.EnableCors(new AccessPolicyCors());
             config.EnableCors(cors);
             config.MapHttpAttributeRoutes();
             config.MessageHandlers.Add(new TokenValidationHandler());

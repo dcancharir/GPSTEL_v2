@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace GPSTEL_API_v2.Controllers
 {
+    
     [Authorize]
     [RoutePrefix("api/chip")]
     public class ChipController : ApiController
@@ -20,6 +21,7 @@ namespace GPSTEL_API_v2.Controllers
             var ChipList = ChipBL.GetChipsJson();
             return Ok(ChipList);
         }
+        [HttpPost]
         public IHttpActionResult GetChipByIdJson(int id)
         {
             try
