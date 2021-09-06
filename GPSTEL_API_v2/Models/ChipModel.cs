@@ -103,9 +103,9 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0",chip.operador);
-                    query.Parameters.AddWithValue("@p1",chip.tipo_contrato);
-                    query.Parameters.AddWithValue("@p2",chip.numero);
+                    query.Parameters.AddWithValue("@p0",chip.operador.Trim());
+                    query.Parameters.AddWithValue("@p1",chip.tipo_contrato.Trim());
+                    query.Parameters.AddWithValue("@p2",chip.numero.Trim());
                     SavedId= (int)query.ExecuteScalar();
                 }
             }
@@ -131,9 +131,9 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0", chip.operador);
-                    query.Parameters.AddWithValue("@p1", chip.tipo_contrato);
-                    query.Parameters.AddWithValue("@p2", chip.numero);
+                    query.Parameters.AddWithValue("@p0", chip.operador.Trim());
+                    query.Parameters.AddWithValue("@p1", chip.tipo_contrato.Trim());
+                    query.Parameters.AddWithValue("@p2", chip.numero.Trim());
                     query.Parameters.AddWithValue("@p3", chip.idchip);
                     query.ExecuteNonQuery();
                     Edited = true;

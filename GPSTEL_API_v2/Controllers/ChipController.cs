@@ -16,17 +16,21 @@ namespace GPSTEL_API_v2.Controllers
     {
         ChipModel ChipBL = new ChipModel();
         [HttpGet]
+        [Route("getjson")]
+        [ActionName("getjson")]
         public IHttpActionResult GetJson()
         {
             var ChipList = ChipBL.GetChipsJson();
             return Ok(ChipList);
         }
         [HttpPost]
-        public IHttpActionResult GetChipByIdJson(int id)
+        [Route("getchipbyidjson")]
+        [ActionName("getchipbyidjson")]
+        public IHttpActionResult GetChipByIdJson([FromBody] ChipEntity chip)
         {
             try
             {
-                var Chip = ChipBL.GetChipByIdJson(id);
+                var Chip = ChipBL.GetChipByIdJson(chip.idchip);
                 if (Chip.idchip == 0)
                 {
                     return NotFound();
@@ -39,6 +43,8 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
+        [Route("SaveChipJson")]
+        [ActionName("SaveChipJson")]
         public IHttpActionResult SaveChipJson([FromBody] ChipEntity chip)
         {
             int SavedId = 0;
@@ -57,6 +63,8 @@ namespace GPSTEL_API_v2.Controllers
             return Ok(SavedId);
         }
         [HttpPost]
+        [Route("EditChipJson")]
+        [ActionName("EditChipJson")]
         public IHttpActionResult EditChipJson([FromBody] ChipEntity chip)
         {
             bool Edited = false;
