@@ -19,5 +19,6 @@ namespace GPSTEL_API_v2.Entities
         [Required]
         [StringLength(18)]
         public string numero { get; set; }
+        public string estado { get; set; }
     }
 }

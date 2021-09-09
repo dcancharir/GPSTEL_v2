@@ -82,5 +82,21 @@ namespace GPSTEL_API_v2.Controllers
             }
             return Ok(Edited);
         }
+        [HttpPost]
+        [Route("EditStateofChipJson")]
+        [ActionName("EditStateofChipJson")]
+        public IHttpActionResult EditStateofChipJson([FromBody] ChipEntity chip)
+        {
+            bool Edited = false;
+            try
+            {
+                Edited = ChipBL.EditStateofChipJson(chip);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            return Ok(Edited);
+        }
     }
 }

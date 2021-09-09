@@ -23,7 +23,8 @@ namespace GPSTEL_API_v2.Models
                               ,[operador]
                               ,[tipo_contrato]
                               ,[numero]
-                          FROM [dbo].[CHIP]";
+                              ,[estado]
+                          FROM [dbo].[CHIP] where estado!='E'";
             try
             {
                 using (var con = new SqlConnection(_connection))
@@ -39,6 +40,7 @@ namespace GPSTEL_API_v2.Models
                                 operador = (string)dr["operador"],
                                 tipo_contrato = (string)dr["tipo_contrato"],
                                 numero = (string)dr["numero"],
+                                estado = (string)dr["estado"],
                             });
                         }
                     }
@@ -55,7 +57,7 @@ namespace GPSTEL_API_v2.Models
             string SqlQuery = @"SELECT [idchip]
                               ,[operador]
                               ,[tipo_contrato]
-                              ,[numero]
+                              ,[numero],[estado]
                           FROM [dbo].[CHIP] where [idchip]=@p0";
             try
             {
@@ -74,7 +76,8 @@ namespace GPSTEL_API_v2.Models
                                 operador = (string)dr["operador"],
                                 tipo_contrato = (string)dr["tipo_contrato"],
                                 numero = (string)dr["numero"],
-                            };
+                                estado = (string)dr["estado"],
+                           };
                         }
                     }
                 }
@@ -90,12 +93,12 @@ namespace GPSTEL_API_v2.Models
             string SqlQuery = @"INSERT INTO [dbo].[CHIP]
                                ([operador]
                                ,[tipo_contrato]
-                               ,[numero])
+                               ,[numero],[estado])
                             OUTPUT INSERTED.idchip
                          VALUES
                                (@p0
                                ,@p1
-                               ,@p2)";
+                               ,@p2,@p3)";
 
             try
             {
@@ -106,6 +109,7 @@ namespace GPSTEL_API_v2.Models
                     query.Parameters.AddWithValue("@p0",chip.operador.Trim());
                     query.Parameters.AddWithValue("@p1",chip.tipo_contrato.Trim());
                     query.Parameters.AddWithValue("@p2",chip.numero.Trim());
+                    query.Parameters.AddWithValue("@p3",chip.estado.Trim());
                     SavedId= (int)query.ExecuteScalar();
                 }
             }
@@ -144,6 +148,32 @@ namespace GPSTEL_API_v2.Models
                 Edited = false;
             }
 
+            return Edited;
+        }
+        public bool EditStateofChipJson(ChipEntity chip)
+        {
+            bool Edited = false;
+            string SqlQuery = @"UPDATE [dbo].[CHIP]
+                           SET 
+                                [estado] = @p0
+                         WHERE idchip=@p1";
+
+            try
+            {
+                using (var con = new SqlConnection(_connection))
+                {
+                    con.Open();
+                    var query = new SqlCommand(SqlQuery, con);
+                    query.Parameters.AddWithValue("@p0", chip.estado.Trim());
+                    query.Parameters.AddWithValue("@p1", chip.idchip);
+                    query.ExecuteNonQuery();
+                    Edited = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Edited = false;
+            }
             return Edited;
         }
     }
