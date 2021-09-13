@@ -139,6 +139,7 @@
     <Compile Include="Models\VehiculoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Encrypt.cs" />
+    <Compile Include="Utilities\ManejoNulos.cs" />
     <Compile Include="ViewModels\LoginRequest.cs" />
   </ItemGroup>
   <ItemGroup>

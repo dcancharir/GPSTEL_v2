@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using GPSTEL_API_v2.Utilities;
 
 namespace GPSTEL_API_v2.Models
 {
@@ -36,11 +37,11 @@ namespace GPSTEL_API_v2.Models
                         while (dr.Read())
                         {
                             ChipList.Add(new ChipEntity() {
-                                idchip = (int)dr["idchip"],
-                                operador = (string)dr["operador"],
-                                tipo_contrato = (string)dr["tipo_contrato"],
-                                numero = (string)dr["numero"],
-                                estado = (string)dr["estado"],
+                                idchip = ManejoNulos.ManageNullInteger(dr["idchip"]),
+                                operador = ManejoNulos.ManageNullStr(dr["operador"]),
+                                tipo_contrato = ManejoNulos.ManageNullStr(dr["tipo_contrato"]),
+                                numero = ManejoNulos.ManageNullStr(dr["numero"]),
+                                estado = ManejoNulos.ManageNullStr(dr["estado"]),
                             });
                         }
                     }
@@ -72,11 +73,11 @@ namespace GPSTEL_API_v2.Models
                         {
                            Chip=new ChipEntity()
                             {
-                                idchip = (int)dr["idchip"],
-                                operador = (string)dr["operador"],
-                                tipo_contrato = (string)dr["tipo_contrato"],
-                                numero = (string)dr["numero"],
-                                estado = (string)dr["estado"],
+                                idchip = ManejoNulos.ManageNullInteger(dr["idchip"]),
+                                operador = ManejoNulos.ManageNullStr(dr["operador"]),
+                                tipo_contrato = ManejoNulos.ManageNullStr(dr["tipo_contrato"]),
+                                numero = ManejoNulos.ManageNullStr(dr["numero"]),
+                                estado = ManejoNulos.ManageNullStr(dr["estado"]),
                            };
                         }
                     }
@@ -106,10 +107,10 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0",chip.operador.Trim());
-                    query.Parameters.AddWithValue("@p1",chip.tipo_contrato.Trim());
-                    query.Parameters.AddWithValue("@p2",chip.numero.Trim());
-                    query.Parameters.AddWithValue("@p3",chip.estado.Trim());
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(chip.operador.Trim()));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullStr(chip.tipo_contrato.Trim()));
+                    query.Parameters.AddWithValue("@p2", ManejoNulos.ManageNullStr(chip.numero.Trim()));
+                    query.Parameters.AddWithValue("@p3", ManejoNulos.ManageNullStr(chip.estado.Trim()));
                     SavedId= (int)query.ExecuteScalar();
                 }
             }
@@ -135,10 +136,10 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0", chip.operador.Trim());
-                    query.Parameters.AddWithValue("@p1", chip.tipo_contrato.Trim());
-                    query.Parameters.AddWithValue("@p2", chip.numero.Trim());
-                    query.Parameters.AddWithValue("@p3", chip.idchip);
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(chip.operador.Trim()));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullStr(chip.tipo_contrato.Trim()));
+                    query.Parameters.AddWithValue("@p2", ManejoNulos.ManageNullStr(chip.numero.Trim()));
+                    query.Parameters.AddWithValue("@p3", ManejoNulos.ManageNullInteger(chip.idchip));
                     query.ExecuteNonQuery();
                     Edited = true;
                 }
@@ -164,8 +165,8 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0", chip.estado.Trim());
-                    query.Parameters.AddWithValue("@p1", chip.idchip);
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(chip.estado.Trim()));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullInteger(chip.idchip));
                     query.ExecuteNonQuery();
                     Edited = true;
                 }

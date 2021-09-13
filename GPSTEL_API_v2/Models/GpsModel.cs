@@ -1,4 +1,5 @@
 ﻿using GPSTEL_API_v2.Entities;
+using GPSTEL_API_v2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -26,7 +27,8 @@ namespace GPSTEL_API_v2.Models
                                   ,[idchip]
                                   ,[fecha_compra]
                                   ,[imei]
-                              FROM [dbo].[GPS]";
+                                  ,[estado]
+                              FROM [dbo].[GPS] where estado!='E'";
             try
             {
                 using (var con = new SqlConnection(_connection))
@@ -39,15 +41,20 @@ namespace GPSTEL_API_v2.Models
                         {
                             GpsList.Add(new GpsEntity()
                             {
-                                idgps = (int)dr["idgps"],
-                                modelo = (string)dr["modelo"],
-                                estado_uso = (string)dr["estado_uso"],
-                                garantia = (string)dr["garantia"],
-                                idchip = (int)dr["idchip"],
-                                fecha_compra = (DateTime)dr["fecha_compra"],
-                                imei = (string)dr["imei"],
+                                idgps = ManejoNulos.ManageNullInteger(dr["idgps"]),
+                                modelo = ManejoNulos.ManageNullStr(dr["modelo"]),
+                                estado_uso = ManejoNulos.ManageNullStr(dr["estado_uso"]),
+                                garantia = ManejoNulos.ManageNullStr(dr["garantia"]),
+                                idchip = ManejoNulos.ManageNullInteger(dr["idchip"]),
+                                fecha_compra = ManejoNulos.ManageNullDate(dr["fecha_compra"]),
+                                imei = ManejoNulos.ManageNullStr(dr["imei"]),
+                                estado = ManejoNulos.ManageNullStr(dr["estado"]),
                             });
                         }
+                    }
+                    foreach(var gps in GpsList)
+                    {
+                        SetChip(con, gps);
                     }
                 }
             }
@@ -66,6 +73,7 @@ namespace GPSTEL_API_v2.Models
                                   ,[idchip]
                                   ,[fecha_compra]
                                   ,[imei]
+                                  ,[estado]
                               FROM [dbo].[GPS] where [idgps]=@p0";
             try
             {
@@ -80,13 +88,14 @@ namespace GPSTEL_API_v2.Models
                         {
                             Gps = new GpsEntity()
                             {
-                                idgps = (int)dr["idgps"],
-                                modelo = (string)dr["modelo"],
-                                estado_uso = (string)dr["estado_uso"],
-                                garantia = (string)dr["garantia"],
-                                idchip = (int)dr["idchip"],
-                                fecha_compra = (DateTime)dr["fecha_compra"],
-                                imei = (string)dr["imei"],
+                                idgps = ManejoNulos.ManageNullInteger(dr["idgps"]),
+                                modelo = ManejoNulos.ManageNullStr(dr["modelo"]),
+                                estado_uso = ManejoNulos.ManageNullStr(dr["estado_uso"]),
+                                garantia = ManejoNulos.ManageNullStr(dr["garantia"]),
+                                idchip = ManejoNulos.ManageNullInteger(dr["idchip"]),
+                                fecha_compra = ManejoNulos.ManageNullDate(dr["fecha_compra"]),
+                                imei = ManejoNulos.ManageNullStr(dr["imei"]),
+                                estado = ManejoNulos.ManageNullStr(dr["estado"]),
                             };
                         }
                     }
@@ -106,14 +115,17 @@ namespace GPSTEL_API_v2.Models
                                ,[garantia]
                                ,[idchip]
                                ,[fecha_compra]
-                               ,[imei])
+                               ,[imei]
+                               ,[estado]
+                                )
                          VALUES
                                (@p0
                                ,@p1
                                ,@p2
                                ,@p3
                                ,@p4
-                               ,@p5)";
+                               ,@p5
+                                ,@p6)";
 
             try
             {
@@ -121,12 +133,13 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0", gps.modelo);
-                    query.Parameters.AddWithValue("@p1", gps.estado_uso);
-                    query.Parameters.AddWithValue("@p2", gps.garantia);
-                    query.Parameters.AddWithValue("@p3", gps.idchip);
-                    query.Parameters.AddWithValue("@p4", gps.fecha_compra);
-                    query.Parameters.AddWithValue("@p5", gps.imei);
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(gps.modelo));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullStr(gps.estado_uso));
+                    query.Parameters.AddWithValue("@p2", ManejoNulos.ManageNullStr(gps.garantia));
+                    query.Parameters.AddWithValue("@p3", ManejoNulos.ManageNullInteger(gps.idchip));
+                    query.Parameters.AddWithValue("@p4", ManejoNulos.ManageNullDate(gps.fecha_compra));
+                    query.Parameters.AddWithValue("@p5", ManejoNulos.ManageNullStr(gps.imei));
+                    query.Parameters.AddWithValue("@p6", ManejoNulos.ManageNullStr(gps.estado));
                     SavedId = (int)query.ExecuteScalar();
                 }
             }
@@ -155,13 +168,13 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
-                    query.Parameters.AddWithValue("@p0", gps.modelo);
-                    query.Parameters.AddWithValue("@p1", gps.estado_uso);
-                    query.Parameters.AddWithValue("@p2", gps.garantia);
-                    query.Parameters.AddWithValue("@p3", gps.idchip);
-                    query.Parameters.AddWithValue("@p4", gps.fecha_compra);
-                    query.Parameters.AddWithValue("@p5", gps.imei);
-                    query.Parameters.AddWithValue("@p6", gps.idgps);
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(gps.modelo));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullStr(gps.estado_uso));
+                    query.Parameters.AddWithValue("@p2", ManejoNulos.ManageNullStr(gps.garantia));
+                    query.Parameters.AddWithValue("@p3", ManejoNulos.ManageNullInteger(gps.idchip));
+                    query.Parameters.AddWithValue("@p4", ManejoNulos.ManageNullDate(gps.fecha_compra));
+                    query.Parameters.AddWithValue("@p5", ManejoNulos.ManageNullStr(gps.imei));
+                    query.Parameters.AddWithValue("@p6", ManejoNulos.ManageNullInteger(gps.idgps));
                     query.ExecuteNonQuery();
                     Edited = true;
                 }
@@ -172,6 +185,54 @@ namespace GPSTEL_API_v2.Models
             }
 
             return Edited;
+        }
+        public bool EditStateofGpsJson(GpsEntity gps)
+        {
+            bool Edited = false;
+            string SqlQuery = @"UPDATE [dbo].[GPS]
+                           SET 
+                                [estado] = @p0
+                         WHERE idgps=@p1";
+
+            try
+            {
+                using (var con = new SqlConnection(_connection))
+                {
+                    con.Open();
+                    var query = new SqlCommand(SqlQuery, con);
+                    query.Parameters.AddWithValue("@p0", ManejoNulos.ManageNullStr(gps.estado.Trim()));
+                    query.Parameters.AddWithValue("@p1", ManejoNulos.ManageNullInteger(gps.idgps));
+                    query.ExecuteNonQuery();
+                    Edited = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Edited = false;
+            }
+            return Edited;
+        }
+        public void SetChip(SqlConnection con,GpsEntity gps)
+        {
+            string consulta = @"SELECT [idchip]
+                              ,[operador]
+                              ,[tipo_contrato]
+                              ,[numero],[estado]
+                          FROM [dbo].[CHIP] where [idchip]=@p0";
+            var query = new SqlCommand(consulta, con);
+            query.Parameters.AddWithValue("@p0", gps.idchip);
+            using(var reader = query.ExecuteReader())
+            {
+                reader.Read();
+                gps.Chip = new ChipEntity()
+                {
+                    idchip=ManejoNulos.ManageNullInteger(reader["idchip"]),
+                    operador=ManejoNulos.ManageNullStr(reader["operador"]),
+                    tipo_contrato=ManejoNulos.ManageNullStr(reader["tipo_contrato"]),
+                    numero=ManejoNulos.ManageNullStr(reader["numero"]),
+                    estado=ManejoNulos.ManageNullStr(reader["estado"]),
+                };
+            }
         }
     }
 }

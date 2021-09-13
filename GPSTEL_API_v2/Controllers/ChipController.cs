@@ -20,8 +20,16 @@ namespace GPSTEL_API_v2.Controllers
         [ActionName("getjson")]
         public IHttpActionResult GetJson()
         {
-            var ChipList = ChipBL.GetChipsJson();
-            return Ok(ChipList);
+            try
+            {
+                var ChipList = ChipBL.GetChipsJson();
+                return Ok(ChipList);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
         [HttpPost]
         [Route("getchipbyidjson")]
@@ -48,17 +56,13 @@ namespace GPSTEL_API_v2.Controllers
         public IHttpActionResult SaveChipJson([FromBody] ChipEntity chip)
         {
             int SavedId = 0;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
                 SavedId = ChipBL.SaveChipJson(chip);
             }
             catch (Exception)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(SavedId);
         }
@@ -68,17 +72,13 @@ namespace GPSTEL_API_v2.Controllers
         public IHttpActionResult EditChipJson([FromBody] ChipEntity chip)
         {
             bool Edited = false;
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
                 Edited = ChipBL.EditChipJson(chip);
             }
             catch (Exception)
             {
-                return NotFound();
+                return BadRequest ();
             }
             return Ok(Edited);
         }
@@ -94,7 +94,7 @@ namespace GPSTEL_API_v2.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return BadRequest();
             }
             return Ok(Edited);
         }

@@ -72,7 +72,7 @@ namespace GPSTEL_API_v2.JWTClasses
                 statusCode = HttpStatusCode.InternalServerError;
             }
 
-            return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode) { });
+            return Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(statusCode) { StatusCode=statusCode });
         }
 
         public bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)

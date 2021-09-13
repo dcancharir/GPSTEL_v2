@@ -14,6 +14,7 @@ namespace GPSTEL_API_v2.Entities
         public int idchip { get; set; }
         public DateTime fecha_compra { get; set; }
         public string imei { get; set; }
+        public string estado { get; set; }
         //Relaciones
         public ChipEntity Chip { get; set; }
         public GpsEntity()
