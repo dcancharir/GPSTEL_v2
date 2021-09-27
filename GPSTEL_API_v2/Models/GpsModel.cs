@@ -118,6 +118,7 @@ namespace GPSTEL_API_v2.Models
                                ,[imei]
                                ,[estado]
                                 )
+                        OUTPUT INSERTED.idgps
                          VALUES
                                (@p0
                                ,@p1

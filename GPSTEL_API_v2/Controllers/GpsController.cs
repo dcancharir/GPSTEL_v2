@@ -16,7 +16,6 @@ namespace GPSTEL_API_v2.Controllers
         GpsModel ChipBL = new GpsModel();
         [HttpGet]
         [Route("getjson")]
-        [ActionName("getjson")]
         public IHttpActionResult GetJson()
         {
             try
@@ -25,9 +24,9 @@ namespace GPSTEL_API_v2.Controllers
                 return Ok(GpsListList);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost]
@@ -43,9 +42,9 @@ namespace GPSTEL_API_v2.Controllers
                 }
                 return Ok(Chip);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
         [HttpPost]
@@ -57,9 +56,9 @@ namespace GPSTEL_API_v2.Controllers
             {
                 SavedId = ChipBL.SaveGpsJson(gps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             return Ok(SavedId);
         }
@@ -72,9 +71,9 @@ namespace GPSTEL_API_v2.Controllers
             {
                 Edited = ChipBL.EditGpsJson(gps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             return Ok(Edited);
         }
@@ -87,9 +86,9 @@ namespace GPSTEL_API_v2.Controllers
             {
                 Edited = ChipBL.EditStateofGpsJson(gps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
             return Ok(Edited);
         }

@@ -82,7 +82,7 @@ namespace GPSTEL_API_v2.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
          
         }

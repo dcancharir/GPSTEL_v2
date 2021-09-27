@@ -1,5 +1,6 @@
 ﻿using GPSTEL_API_v2.Entities;
 using GPSTEL_API_v2.Models;
+using GPSTEL_API_v2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,17 @@ using System.Web.Http;
 
 namespace GPSTEL_API_v2.Controllers
 {
-    
-    [Authorize]
-    [RoutePrefix("api/chip")]
-    public class ChipController : ApiController
+    public class ClienteController : ApiController
     {
-        ChipModel ChipBL = new ChipModel();
+        ClienteModel ClienteBL= new ClienteModel();
         [HttpGet]
         [Route("getjson")]
         public IHttpActionResult GetJson()
         {
             try
             {
-                var ChipList = ChipBL.GetChipsJson();
+                var ChipList = ClienteBL.GetClientesJson();
                 return Ok(ChipList);
-
             }
             catch (Exception ex)
             {
@@ -31,17 +28,17 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
-        [Route("getchipbyidjson")]
-        public IHttpActionResult GetChipByIdJson([FromBody] ChipEntity chip)
+        [Route("GetClienteByIdJson")]
+        public IHttpActionResult GetClienteByIdJson([FromBody] ClienteEntity cliente)
         {
             try
             {
-                var Chip = ChipBL.GetChipByIdJson(chip.idchip);
-                if (Chip.idchip == 0)
+                var Cliente= ClienteBL.GetClienteByIdJson(cliente.idcliente);
+                if (Cliente.idcliente == 0)
                 {
                     return NotFound();
                 }
-                return Ok(Chip);
+                return Ok(Cliente);
             }
             catch (Exception ex)
             {
@@ -49,13 +46,21 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
-        [Route("SaveChipJson")]
-        public IHttpActionResult SaveChipJson([FromBody] ChipEntity chip)
+        [Route("SaveClienteJson")]
+        public IHttpActionResult SaveClienteJson([FromBody] ClienteEntity cliente)
         {
             int SavedId = 0;
             try
             {
-                SavedId = ChipBL.SaveChipJson(chip);
+                ClienteEntity ClienteRepetido = ClienteBL.GetClienteByNroDniRucJson(cliente.dni_ruc);
+                if (ClienteRepetido.idcliente == 0)
+                {
+                    SavedId = ClienteBL.SaveClienteJson(cliente);
+                }
+                else
+                {
+                    return BadRequest("El Cliente ya se encuentra registrado");
+                }
             }
             catch (Exception ex)
             {
@@ -64,28 +69,28 @@ namespace GPSTEL_API_v2.Controllers
             return Ok(SavedId);
         }
         [HttpPost]
-        [Route("EditChipJson")]
-        public IHttpActionResult EditChipJson([FromBody] ChipEntity chip)
+        [Route("EditClienteJson")]
+        public IHttpActionResult EditClienteJson([FromBody] ClienteEntity cliente)
         {
             bool Edited = false;
             try
             {
-                Edited = ChipBL.EditChipJson(chip);
+                Edited = ClienteBL.EditClienteJson(cliente);
             }
             catch (Exception ex)
             {
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
             return Ok(Edited);
         }
         [HttpPost]
-        [Route("EditStateofChipJson")]
-        public IHttpActionResult EditStateofChipJson([FromBody] ChipEntity chip)
+        [Route("EditStateofClienteJson")]
+        public IHttpActionResult EditStateofClienteJson([FromBody] ClienteEntity cliente)
         {
             bool Edited = false;
             try
             {
-                Edited = ChipBL.EditStateofChipJson(chip);
+                Edited = ClienteBL.EditStateofClienteJson(cliente);
             }
             catch (Exception ex)
             {

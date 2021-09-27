@@ -14,23 +14,47 @@ namespace GPSTEL_API_v2.Controllers
         DepartamentoModel DepartamentoBL = new DepartamentoModel();
         ProvinciaModel ProvinciaBL = new ProvinciaModel();
         DistritoModel DistritoBL = new DistritoModel();
-        [HttpGet]
+        [HttpPost]
+        [Route("GetDepartamentosJson")]
         public IHttpActionResult GetDepartamentosJson()
         {
-            var List = DepartamentoBL.GetDepartamentosJson();
-            return Ok(List);
+            try
+            {
+                var List = DepartamentoBL.GetDepartamentosJson();
+                return Ok(List);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
+        [Route("GetProvinciasByDepartamentoJson")]
         public IHttpActionResult GetProvinciasByDepartamentoJson([FromBody] int iddepartamento)
         {
-            var List = ProvinciaBL.GetProvinciasByDepartamentoJson(iddepartamento);
-            return Ok(List);
+            try
+            {
+                var List = ProvinciaBL.GetProvinciasByDepartamentoJson(iddepartamento);
+                return Ok(List);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
+        [Route("GetDistritosByProvinciaJson")]
         public IHttpActionResult GetDistritosByProvinciaJson([FromBody] int idprovincia)
         {
-            var List = DistritoBL.GetDistritosByProvinciaJson(idprovincia);
-            return Ok(List);
+            try
+            {
+                var List = DistritoBL.GetDistritosByProvinciaJson(idprovincia);
+                return Ok(List);
+            }
+           catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -9,20 +9,17 @@ using System.Web.Http;
 
 namespace GPSTEL_API_v2.Controllers
 {
-    
-    [Authorize]
-    [RoutePrefix("api/chip")]
-    public class ChipController : ApiController
+    public class VehiculoController : ApiController
     {
-        ChipModel ChipBL = new ChipModel();
+        VehiculoModel VehiculoBL= new VehiculoModel();
         [HttpGet]
         [Route("getjson")]
         public IHttpActionResult GetJson()
         {
             try
             {
-                var ChipList = ChipBL.GetChipsJson();
-                return Ok(ChipList);
+                var VehiculosList = VehiculoBL.GetVehiculosJson();
+                return Ok(VehiculosList);
 
             }
             catch (Exception ex)
@@ -31,17 +28,17 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
-        [Route("getchipbyidjson")]
-        public IHttpActionResult GetChipByIdJson([FromBody] ChipEntity chip)
+        [Route("GetVehiculosByIdJson")]
+        public IHttpActionResult GetVehiculosByIdJson([FromBody] VehiculoEntity vehiculo)
         {
             try
             {
-                var Chip = ChipBL.GetChipByIdJson(chip.idchip);
-                if (Chip.idchip == 0)
+                var Vehiculo = VehiculoBL.GetVehiculoByIdJson(vehiculo.idvehiculo);
+                if (Vehiculo.idvehiculo == 0)
                 {
                     return NotFound();
                 }
-                return Ok(Chip);
+                return Ok(Vehiculo);
             }
             catch (Exception ex)
             {
@@ -49,13 +46,13 @@ namespace GPSTEL_API_v2.Controllers
             }
         }
         [HttpPost]
-        [Route("SaveChipJson")]
-        public IHttpActionResult SaveChipJson([FromBody] ChipEntity chip)
+        [Route("SaveVehiculoJson")]
+        public IHttpActionResult SaveVehiculoJson([FromBody] VehiculoEntity vehiculo)
         {
             int SavedId = 0;
             try
             {
-                SavedId = ChipBL.SaveChipJson(chip);
+                SavedId = VehiculoBL.SaveVechiculoJson(vehiculo);
             }
             catch (Exception ex)
             {
@@ -64,28 +61,28 @@ namespace GPSTEL_API_v2.Controllers
             return Ok(SavedId);
         }
         [HttpPost]
-        [Route("EditChipJson")]
-        public IHttpActionResult EditChipJson([FromBody] ChipEntity chip)
+        [Route("EditVehiculoJson")]
+        public IHttpActionResult EditVehiculoJson([FromBody] VehiculoEntity vehiculo)
         {
             bool Edited = false;
             try
             {
-                Edited = ChipBL.EditChipJson(chip);
+                Edited = VehiculoBL.EditVehiculoJson(vehiculo);
             }
             catch (Exception ex)
             {
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
             return Ok(Edited);
         }
         [HttpPost]
-        [Route("EditStateofChipJson")]
-        public IHttpActionResult EditStateofChipJson([FromBody] ChipEntity chip)
+        [Route("EditStateofVehiculoJson")]
+        public IHttpActionResult EditStateofVehiculoJson([FromBody] VehiculoEntity vehiculo)
         {
             bool Edited = false;
             try
             {
-                Edited = ChipBL.EditStateofChipJson(chip);
+                Edited = VehiculoBL.EditStateofVehiculoJson(vehiculo);
             }
             catch (Exception ex)
             {
