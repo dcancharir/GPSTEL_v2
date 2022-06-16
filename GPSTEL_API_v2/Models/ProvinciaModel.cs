@@ -29,6 +29,7 @@ namespace GPSTEL_API_v2.Models
                 {
                     con.Open();
                     var query = new SqlCommand(SqlQuery, con);
+                    query.Parameters.AddWithValue("@p0",iddepartamento);
                     using (var dr = query.ExecuteReader())
                     {
                         while (dr.Read())

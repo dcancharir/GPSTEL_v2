@@ -8,6 +8,7 @@ using System.Web.Http;
 
 namespace GPSTEL_API_v2.Controllers
 {
+    [AllowAnonymous]
     [RoutePrefix("api/ubigeo")]
     public class UbigeoController : ApiController
     {
@@ -30,7 +31,7 @@ namespace GPSTEL_API_v2.Controllers
         }
         [HttpPost]
         [Route("GetProvinciasByDepartamentoJson")]
-        public IHttpActionResult GetProvinciasByDepartamentoJson([FromBody] int iddepartamento)
+        public IHttpActionResult GetProvinciasByDepartamentoJson(int iddepartamento)
         {
             try
             {
